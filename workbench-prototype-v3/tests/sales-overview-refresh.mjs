@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {mkdtempSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {createOperationsReminders} from '../src/domain/operations-reminders.js';
+import {createSalesOverviewRefresh} from '../src/domain/sales-overview-refresh.js';
+const dir=mkdtempSync(join(tmpdir(),'sales-overview-'));
+try {
+  let time=1000000, reads=0, fail=false, modelCalls=[], balances=[];
+  const reminders=createOperationsReminders({dir,now:()=>time});
+  const rejected=()=>Promise.reject(Error('offline'));
+  for(const meta of [{area:'devices',action:'inventory'},{area:'model',action:'read',target:'sales'},{area:'model',action:'test',target:'knowledge'},{area:'model',action:'reload',target:'sales'}]) await reminders.run(meta,rejected).catch(()=>{});
+  const balanceMonitor={snapshot:()=>({intervalMinutes:60,connections:{sales:{lastAttemptAt:new Date(time-120000).toISOString(),error:true},knowledge:{lastAttemptAt:new Date(time).toISOString()}}}),check:async target=>{balances.push(target);}};
+  const monitor=createSalesOverviewRefresh({reminders,now:()=>time,balanceMonitor,readDevices:async()=>{reads++;if(fail)throw Error();return {devices:[{online:true},{online:false}]};},readMaterials:async()=>({materials:[]}),readModel:async body=>{modelCalls.push(body);return {connected:true};}});
+  const [first]=await Promise.all([monitor.refresh(),monitor.refresh()]);
+  assert.equal(reads,1);
+  assert.equal(first.devices.online,1);
+  assert.deepEqual(modelCalls,[{action:'read',target:'sales'},{action:'test',target:'knowledge'}]);
+  assert.deepEqual(balances,['sales']);
+  assert.equal(reminders.snapshot().issues.length,1);
+  assert.match(reminders.snapshot().issues[0].id,/model:reload/);
+  await monitor.refresh();assert.equal(reads,1);
+  time+=60001;fail=true;
+  const stale=await monitor.refresh();
+  assert.equal(stale.deviceError,true);assert.equal(stale.devices.online,1);
+  assert.ok(reminders.snapshot().issues.some(i=>i.id.includes('devices:inventory')));
+  time+=60001;fail=false;await monitor.refresh();
+  assert.equal(reminders.snapshot().issues.length,1);
+  assert.equal(modelCalls.length,2);
+  console.log('PASS: overview recovers read failures without child pages; TTL, dedup, stale data, write failures preserved');
+} finally {rmSync(dir,{recursive:true,force:true});}

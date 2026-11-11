@@ -1,0 +1,14 @@
+.application-details { color: #e8e4dc; overflow-wrap: anywhere; }
+.application-details h2, .application-details h3 { color: #e8d3a0; letter-spacing: 0; }
+.application-details h2 { font-size: 1.2rem; line-height: 1.4; margin: 0 0 .5rem; }
+.application-details h3 { font-size: .95rem; margin: 0 0 .45rem; }
+.application-details p, .application-details ul { margin: 0; line-height: 1.6; }
+.application-details > section { padding: .9rem 0; border-bottom: 1px solid #454039; }
+.application-details .application-intro { padding-top: 0; }
+.application-details .application-scope { color: #bcb8ae; margin-top: .5rem; }
+.application-details .application-alerts { color: #ebc58d; }
+.application-details ul { padding-left: 1.25rem; }
+.application-details li + li { margin-top: .35rem; }
+.application-evidence { padding: 1rem 0; color: #bcb8ae; }
+.application-evidence summary { color: #d5bd86; cursor: pointer; }
+.application-evidence p { margin-top: .6rem; white-space: pre-wrap; }

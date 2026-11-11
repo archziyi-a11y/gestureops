@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {mkdtempSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {createOperationsReminders} from '../src/domain/operations-reminders.js';
+import {dockIncident} from '../src/domain/dock-incidents.js';
+import {maintenanceContext} from '../src/domain/maintenance-context.js';
+import {dockFacts} from '../src/ui/dock-dashboard.js';
+const dir=mkdtempSync(join(tmpdir(),'dock-incidents-'));
+try{
+ const r=createOperationsReminders({dir});
+ const run=(action,object,value)=>r.runDock({action,object},async()=>value);
+ await run('preview','A',{ok:false,error:'remote_quota_exhausted',message:'secret'});
+ assert.equal(r.snapshot().issues[0].severity,'normal');
+ assert.equal(r.snapshot().issues[0].project,'bridge');
+ assert.ok(!JSON.stringify(r.snapshot()).includes('secret'));
+ await run('describe','',{ok:true});
+ await run('preview','B',{ok:true});
+ assert.equal(r.snapshot().issues.length,1);
+ assert.match(maintenanceContext(r.assets()[0]),/不要循环重试/);
+ await run('preview','A',{ok:true});
+ assert.equal(r.snapshot().issues.length,0);
+ await run('send','token',{ok:false,status:'unknown'});
+ await run('send','token',{ok:true,status:'accepted',callbackBound:true});
+ assert.equal(r.snapshot().issues.length,1,'unknown outcome cannot be silently cleared');
+ assert.equal(dockIncident('send',{ok:true,status:'accepted',callbackBound:false}).kind,'callback');
+ assert.equal(dockIncident('preview',{ok:false,error:'no_pending_rows'}),null);
+ await run('save','bot',{ok:true,saved:true});
+ assert.ok(r.snapshot().issues.some(i=>i.kind==='reload'));
+ await run('restart','',{ok:true});
+ assert.ok(!r.snapshot().issues.some(i=>i.kind==='reload'));
+ const html=dockFacts({observedAt:new Date().toISOString(),service:{status:'Running'},batches:{status:'available',items:[{status:'pending',expired:true},{status:'cancelled'}]},bindings:{status:'available',items:[]},receipts:{mirror:{status:'available',items:[]}}});
+ assert.match(html,/0 批待确认 · 1 批确认已过期/);
+ assert.doesNotMatch(html,/全部正常/);
+ console.log('dock incident contracts PASS');
+}finally{rmSync(dir,{recursive:true,force:true});}

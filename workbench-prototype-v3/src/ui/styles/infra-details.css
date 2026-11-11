@@ -1,0 +1,15 @@
+.infra-details { color: #eee9de; }
+.infra-details h2 { font-size: 20px; line-height: 1.45; margin: 0 0 8px; }
+.infra-details h3 { font-size: 15px; margin: 0 0 12px; color: #d9bd72; }
+.infra-details p { line-height: 1.6; margin: 6px 0; color: #bdb9b1; }
+.infra-intro, .infra-list, .infra-readiness { padding: 18px 0; border-bottom: 1px solid #3b3933; }
+.infra-item { border-top: 1px solid #3b3933; }
+.infra-item summary { cursor: pointer; display: flex; gap: 16px; justify-content: space-between; align-items: center; padding: 14px 0; }
+.infra-name { min-width: 0; overflow-wrap: anywhere; }
+.infra-state { flex: none; color: #d9bd72; font-size: 13px; }
+.infra-state-running { color: #8ac5a1; }
+.infra-state-error, .infra-state-stopped { color: #e69a8e; }
+.infra-item-body { padding: 0 0 14px; overflow-wrap: anywhere; }
+.infra-item-body code { color: #e3d7b8; }
+.infra-evidence { padding: 18px 0; }
+.infra-evidence summary { cursor: pointer; color: #d9bd72; }

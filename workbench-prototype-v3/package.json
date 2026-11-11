@@ -1,0 +1,17 @@
+{
+  "name": "workbench-prototype-v3",
+  "private": true,
+  "type": "module",
+  "version": "3.0.0",
+  "description": "屹立工作台 V3 本地原型：服务端持有作业事实，状态只能被真实事件推进。",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/flow.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "diff": "^9.0.0"
+  }
+}

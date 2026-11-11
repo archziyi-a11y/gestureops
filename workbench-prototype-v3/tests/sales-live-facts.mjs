@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import { summarizeSalesFact } from '../src/ui/sales-live-facts.js';
+assert.equal(summarizeSalesFact('devices',{devices:[]}).title,'暂无工作机');
+const devices=summarizeSalesFact('devices',{devices:[{online:true,apps:[]},{online:false,apps:null},{apps:[{status:'安装超时'}]}]});
+assert.match(devices.title,/3 台工作机 · 1 台在线 · 1 台离线 · 1 台连接状态未取得/);
+assert.match(devices.detail,/安装回报读取失败 1 台/);
+assert.match(devices.detail,/安装超时 1 台/);
+assert.throws(()=>summarizeSalesFact('devices',{}));
+assert.throws(()=>summarizeSalesFact('knowledge',{}));
+assert.throws(()=>summarizeSalesFact('materials',{}));
+assert.match(summarizeSalesFact('knowledge',{version:0,documents:[]}).title,/已发布 0 份 · 本地知识版本 0/);
+assert.match(summarizeSalesFact('knowledge',{version:2,documents:[{state:'active'},{state:'withdrawn'}]}).detail,/1 份未处于发布状态/);
+assert.equal(summarizeSalesFact('materials',{materials:[{type:'IMAGE'},{type:'TEXT'}]}).detail,'图片 1 项 · 其他物料 1 项。');
+console.log('PASS sales facts: counts, unknown states, versions, invalid responses');

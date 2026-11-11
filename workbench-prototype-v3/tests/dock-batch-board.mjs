@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {batchTimeline,dockBatchBoard} from '../src/ui/dock-batch-board.js';
+const item=(id,stamp)=>({id,created:Date.parse(stamp)/1000,status:'pending',counts:{blocked:1}});
+const items=[item('a','2026-11-09T16:00:00Z'),item('b','2026-11-11T00:00:00Z')];
+assert.deepEqual(batchTimeline(items).columns.map(c=>c.key),['2026-11-10','2026-11-11']);
+assert.equal(batchTimeline(items,'week').columns[0].key,'2026-11-09');
+assert.equal(batchTimeline(items,'month').columns.length,1);
+const gaps=batchTimeline([items[0],item('c','2026-11-12T00:00:00Z')]);
+assert.equal(gaps.columns[1].items.length,0);
+assert.equal(batchTimeline([{id:'unknown',created:null}]).columns[0].key,'unknown');
+assert.deepEqual(batchTimeline([]).columns,[]);
+const options={label:s=>s,account:()=> 'staff',zoom:0};
+const html=dockBatchBoard(items,options);
+assert.match(html,/data-density="timeline"/);
+assert.equal((html.match(/data-dock-live="followup"/g)||[]).length,2);
+assert.equal((dockBatchBoard(items,{...options,query:'b'}).match(/data-batch-card=/g)||[]).length,1);
+assert.match(dockBatchBoard(items,{...options,zoom:75}),/data-density="cards"/);
+console.log('PASS: Beijing date buckets, week/month, gaps, unknown/empty, density, filtering and card actions');

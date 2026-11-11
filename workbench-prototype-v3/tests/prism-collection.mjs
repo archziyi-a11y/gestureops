@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import {mkdtempSync,mkdirSync,writeFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {EventEmitter} from 'node:events';
+import {PassThrough,Writable} from 'node:stream';
+import {createPrismCollection} from '../src/domain/prism-collection.js';
+const dir=mkdtempSync(join(tmpdir(),'prism-collect-'));
+try {
+  const exportsDir=join(dir,'exports'),snapshot=join(exportsDir,'feishu-teacher-library-test');
+  mkdirSync(join(snapshot,'derived'),{recursive:true});
+  writeFileSync(join(snapshot,'manifest.json'),JSON.stringify({status:'complete',stats:{documentsExported:2},errors:[]}));
+  writeFileSync(join(snapshot,'derived/normalization-report.json'),JSON.stringify({teachingNoteCandidates:1}));
+  let child,request;
+  const launch=()=>{child=new EventEmitter();child.stdout=new PassThrough();child.stderr=new PassThrough();child.stdin=new Writable({write(chunk,encoding,done){request=JSON.parse(chunk);done();}});return child;};
+  const options={root:process.cwd(),dir:join(dir,'state'),exportsDir,launch};
+  const api=createPrismCollection(options);
+  assert.equal(api.snapshot().archives[0].notes,1);
+  assert.throws(()=>api.start({kind:'notes',subjects:['../']}));
+  assert.throws(()=>api.start({kind:'images',since:'2026-02-30'}));
+  assert.throws(()=>api.start({kind:'images',output:'evil'}));
+  api.start({kind:'images'});
+  assert.match(request.since,/^\d{4}-\d{2}-\d{2}$/);
+  assert.throws(()=>api.start({kind:'notes',subjects:['color']}));
+  child.stdout.write(JSON.stringify({done:true,status:'partial',message:'partial',counts:{images:1}})+'\n');child.emit('close',0);
+  assert.equal(api.snapshot().jobs[0].status,'partial');
+  api.start({kind:'notes',subjects:['color']});
+  assert.ok(request.output.startsWith(exportsDir));
+  child.emit('close',1);
+  assert.equal(api.snapshot().jobs[0].status,'unknown');
+  api.start({kind:'images'});
+  assert.equal(createPrismCollection(options).snapshot().jobs[0].status,'unknown');
+  console.log('PASS collection: input, bounded roots, archive counts, concurrency, partial, unknown, restart');
+} finally {rmSync(dir,{recursive:true,force:true});}

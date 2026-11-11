@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {mkdtemp,readFile} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {once} from 'node:events';
+import {createRequire} from 'node:module';
+const {chromium}=createRequire(import.meta.url)('C:/Users/YL-GHL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const dir=await mkdtemp(join(tmpdir(),'sources-'));
+const base='http://127.0.0.1:15189';
+const child=spawn(process.execPath,['server.js'],{cwd:new URL('..',import.meta.url),env:{...process.env,PORT:'15189',STATE_DIR:dir,KNOWLEDGE_OFFLINE:'1'},windowsHide:true,stdio:'ignore'});
+let browser;
+try{
+ for(let i=0;i<100;i++){try{await fetch(base);break;}catch{await new Promise(r=>setTimeout(r,100));}}
+ const post=async(action,body={})=>{const r=await fetch(base+'/api/knowledge/source-'+action,{method:'POST',headers:{'content-type':'application/json',origin:base},body:JSON.stringify(body)});assert.equal(r.status,200);return r.json();};
+ const raw=Buffer.from('Test original source text');
+ const first=await post('upload',{filename:'source.md',base64:raw.toString('base64'),purpose:'知识原料'});
+ assert.equal((await post('upload',{filename:'copy.md',base64:raw.toString('base64'),purpose:'知识原料'})).duplicate,true);
+ assert.deepEqual(Buffer.from((await post('download',{id:first.id})).base64,'base64'),raw);
+ browser=await chromium.launch({channel:'chrome',headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/#/p/sales/w/sources');
+ await page.locator('[data-source-open]').first().click();
+ await page.locator('.source-detail pre').waitFor();
+ assert.match(await page.locator('.source-detail pre').innerText(),/Test original source text/);
+ const downloaded=page.waitForEvent('download');await page.locator('[data-source-action=download]').click();
+ assert.deepEqual(await readFile(await (await downloaded).path()),raw);
+ await page.locator('[data-source-action=prepare]').click();
+ await page.locator('[data-confirm]').waitFor();
+ assert.equal(await page.locator('[data-question]').count(),0);
+ await page.getByRole('link',{name:'原件',exact:true}).click();
+ await page.locator('[data-source-open]').first().click();
+ assert.match(await page.locator('.source-list').innerText(),/草稿/);
+ await page.locator('[data-source-edit-purpose]').selectOption('内部参考');
+ await page.locator('[data-source-action=update]').click();await page.getByText('资料信息已保存',{exact:true}).waitFor();
+ await page.locator('[data-source-action=prepare]').click();await page.locator('[data-confirm]').waitFor();
+ await page.getByRole('link',{name:'原件',exact:true}).click();
+ await page.locator('[data-source-open]').first().click();
+ await page.screenshot({path:join(tmpdir(),'source-library-desktop.png'),fullPage:true});
+ await page.setViewportSize({width:390,height:844});
+ assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.screenshot({path:join(tmpdir(),'source-library-mobile.png'),fullPage:true});
+ await page.goto(base+'/#/asset/sales-sources');
+ await page.locator('[data-source-asset-summary]').first().filter({hasText:'1 份源文件'}).waitFor();
+ assert.deepEqual(errors,[]);
+ console.log('PASS source API + browser: dedup, exact download, preview, prepare draft, purpose guard, asset summary, desktop/mobile');
+}finally{if(browser)await browser.close();child.kill();await once(child,'exit');}

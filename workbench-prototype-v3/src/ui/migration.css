@@ -1,0 +1,17 @@
+.migration-draft {
+  position: static;
+  padding: 20px 0;
+  border-block: 1px solid #ccd6d3;
+  margin-block: 16px;
+  overflow-wrap: anywhere;
+}
+.migration-draft summary { cursor: pointer; min-height: 44px; }
+.migration-draft .prompt { white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; }
+.page:has(.migration-draft) .actionbar { position: static; }
+@media (max-width: 760px) {
+  .migration-draft .cols { grid-template-columns: minmax(0, 1fr); }
+  .migration-draft .stack, .migration-draft .card { min-width: 0; }
+  .migration-draft .kv > div { flex-wrap: wrap; }
+  .migration-draft .actions, .migration-draft .samples { flex-wrap: wrap; }
+  .migration-draft .textarea { box-sizing: border-box; width: 100%; }
+}

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { balanceSummary } from '../src/domain/balance-summary.js';
+const state = (total, status = 'ok', error = null) => ({ connections: { sales: { balances: [{ currency: 'CNY', total }], status, error } } });
+assert.equal(balanceSummary(state('14.79')).text, '模型余额 ¥14.79');
+assert.equal(balanceSummary(state('4', 'low')).warning, true);
+assert.match(balanceSummary(state('4', 'low', 'failed')).text, /余额偏低.*更新失败/);
+assert.match(balanceSummary(state('14.79', 'ok', 'failed')).text, /保留上次结果/);
+assert.equal(balanceSummary(state('')).text, '模型余额待查询');
+assert.equal(balanceSummary(null).warning, false);
+console.log('PASS: overview balance, low balance, stale result, missing amount');

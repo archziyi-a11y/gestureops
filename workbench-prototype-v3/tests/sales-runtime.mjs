@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {runtimeRows} from '../src/ui/sales-live-facts.js';
+const data={windowStart:'2026-11-10T00:00:00Z',windowEnd:'2026-11-10T01:00:00Z',items:['帮我回','润色','销售指导','profile'].map(kind=>({kind,active:0,succeeded:0,failed:0,cached:0,failures:[]}))};
+assert.equal(runtimeRows(data)[0].text,'近期无请求');
+data.items[0].active=2;data.items[0].failed=1;
+assert.match(runtimeRows(data)[0].text,/进行中 2.*未完成 1/);
+data.items[3].cached=3;
+assert.match(runtimeRows(data)[3].text,/沿用已有画像 3/);
+data.items[0].failed=-1;
+assert.throws(()=>runtimeRows(data));
+console.log('sales runtime UI summaries PASS');

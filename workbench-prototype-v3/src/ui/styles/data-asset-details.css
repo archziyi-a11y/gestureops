@@ -1,0 +1,8 @@
+.data-asset-details { color: inherit; min-width: 0; }
+.data-asset-details h2 { font-size: 1.15rem; }
+.data-asset-details dl { display: block; margin: 1rem 0; }
+.data-asset-details dl div { display: grid; grid-template-columns: minmax(6rem, 10rem) minmax(0, 1fr); gap: .5rem; padding: .55rem 0; border-bottom: 1px solid #49443a; }
+.data-asset-details dt { color: #d4b878; }
+.data-asset-details dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.data-asset-details details p { overflow-wrap: anywhere; }
+@media (max-width: 480px) { .data-asset-details dl div { grid-template-columns: 1fr; gap: .2rem; } }

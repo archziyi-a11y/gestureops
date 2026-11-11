@@ -1,0 +1,48 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+const require=createRequire(import.meta.url);
+const {chromium}=require('C:/Users/YL-GHL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const browser=await chromium.launch({channel:'chrome',headless:true});
+try {
+ const page=await browser.newPage();
+ await page.clock.install();
+ let queries=0;
+ await page.route('**/api/knowledge',r=>r.fulfill({json:{version:0,documents:[],modelConfigured:false}}));
+ let submitted;
+ await page.route('**/api/knowledge/query',async r=>{
+  queries++;submitted=r.request().postDataJSON();
+  await new Promise(resolve=>setTimeout(resolve,100));
+  return r.fulfill({json:{comparison:true,question:submitted.query,model:'test',baseline:{answer:'测试回答',answerSummary:'依据摘要'},augmented:{matches:[],generationError:'无资料'}}});
+ });
+ await page.goto('http://127.0.0.1:5185/#/p/sales/w/knowledge');
+ await page.getByText('本地版本 0',{exact:true}).waitFor();
+ const input=page.locator('[data-question="query"]');
+ const first=await input.getAttribute('placeholder');
+ assert.ok(first.startsWith('例如：'));
+ assert.equal(await input.inputValue(),'');
+ await page.clock.fastForward(5100);
+ const second=await input.getAttribute('placeholder');
+ assert.notEqual(second,first);
+ await input.focus();
+ await page.clock.fastForward(5100);
+ assert.equal(await input.getAttribute('placeholder'),second);
+ await input.fill('我的问题');
+ await input.blur();
+ await page.clock.fastForward(5100);
+ assert.equal(await input.inputValue(),'我的问题');
+ assert.equal(await input.getAttribute('placeholder'),second);
+ assert.equal(queries,0);
+ await input.fill('');
+ await input.blur();
+ await page.clock.fastForward(5100);
+ assert.notEqual(await input.getAttribute('placeholder'),second);
+ const displayed=(await input.getAttribute('placeholder')).replace('例如：','');
+ await page.locator('[data-action="query"]').click();
+ await page.locator('.comparison-answer').waitFor();
+ assert.equal(submitted.query,displayed);
+ assert.equal(await input.inputValue(),displayed);
+ assert.equal(await page.locator('.answer-summary').textContent(),'依据摘要');
+ assert.equal(queries,1);
+ await page.screenshot({path:'C:/Users/YL-GHL/AppData/Local/Temp/knowledge-examples.png'});
+ console.log('PASS: rotating placeholder, focus pause, input preservation, explicit example submission and summary (mock API only)');
+} finally {await browser.close();}

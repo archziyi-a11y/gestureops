@@ -1,0 +1,18 @@
+#team-materials { color: #ededee; background: transparent; padding: 0; min-width: 0; }
+#team-materials .tm-tools { display: grid; grid-template-columns: minmax(0, 360px) 160px; gap: 12px; align-items: center; }
+#team-materials a { color: #e3b47b; }
+#team-materials > h2 { font-size: 20px; }
+#team-materials button, #team-materials input, #team-materials select, #team-materials textarea { font: inherit; color: inherit; background: #101010; border: 1px solid #4c5562; border-radius: 4px; padding: 10px; max-width: 100%; min-width: 0; box-sizing: border-box; }
+#team-materials button { cursor: pointer; min-height: 44px; background: transparent; padding: 9px 14px; }
+#team-materials button:disabled { opacity: .5; cursor: not-allowed; }
+#team-materials .tm-row { display: grid; grid-template-columns: minmax(100px, 1fr) 70px minmax(100px, 2fr); gap: 16px; width: 100%; text-align: left; border-width: 0 0 1px; border-radius: 0; background: transparent; overflow-wrap: anywhere; }
+#team-materials dialog { background: #202225; color: #ededee; border: 1px solid #50545a; border-radius: 6px; width: min(560px, 85vw); max-height: 85vh; overflow: auto; }
+#team-materials dialog::backdrop { background: #000a; }
+#team-materials label { display: grid; gap: 8px; margin-bottom: 16px; }
+#team-materials [hidden] { display: none; }
+#team-materials textarea { min-height: 140px; resize: vertical; }
+#team-materials img { max-width: 100%; max-height: 360px; object-fit: contain; }
+#team-materials .tm-content { white-space: pre-wrap; overflow-wrap: anywhere; }
+#team-materials .tm-uploader { color: #b9babc; font-size: 14px; }
+#team-materials .tm-row .tm-uploader { grid-column: 1 / -1; }
+@media(max-width: 600px) { #team-materials .tm-tools { grid-template-columns: minmax(0, 1fr); } #team-materials .tm-row { grid-template-columns: 1fr 70px; } #team-materials .tm-row span:last-child { grid-column: 1 / -1; } }

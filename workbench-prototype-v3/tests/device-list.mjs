@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import { deviceWorkface } from '../src/ui/device-workface.js';
+const html = deviceWorkface();
+assert.ok(html.includes('device-table'));
+assert.ok(html.includes('data-device="add"'));
+assert.ok(html.includes('data-device="refresh"'));
+assert.ok(!html.includes('复制'));
+assert.ok(!html.includes('data-device-mode'));
+assert.ok(html.includes('尚未读取清单'));
+assert.ok(html.includes('方舟工作端版本'));
+assert.ok(html.includes('colspan="6"'));
+assert.ok(!html.includes('<th>授权</th>'));
+assert.ok(!html.includes('未关联'));
+assert.ok(!html.includes('data-device="revoke"'));
+console.log('device list: 11 assertions passed');

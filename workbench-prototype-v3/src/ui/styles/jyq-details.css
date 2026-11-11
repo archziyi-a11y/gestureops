@@ -1,0 +1,8 @@
+.jyq-details{max-width:1200px;margin:auto;letter-spacing:0}
+.jyq-details h2{font-size:26px;margin:24px 0}
+.jyq-details section{padding:18px 0;border-top:1px solid #35393c}
+.jyq-details h3{font-size:18px;color:#e7be83;margin:0 0 8px}
+.jyq-details p{font-size:15px;line-height:1.65;color:#c3c8cb;margin:5px 0;overflow-wrap:anywhere}
+.jyq-evidence{border-top:1px solid #35393c;padding:20px 0;color:#aeb5bb}
+.jyq-evidence summary{cursor:pointer;min-height:32px}
+@media(max-width:700px){.jyq-details h2{font-size:22px}}
