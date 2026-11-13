@@ -14,7 +14,7 @@
 
 ## 数据位置
 
-桌面启动器状态根为 `%LOCALAPPDATA%\YiliWorkbench\spatial-demo`，以实际运行进程为准。
+桌面启动器状态根为 `C:\Users\YL-GHL\AppData\Local\YiliWorkbench\spatial-demo`，以实际运行进程为准。
 
 | 内容 | 根目录下的位置 |
 | --- | --- |

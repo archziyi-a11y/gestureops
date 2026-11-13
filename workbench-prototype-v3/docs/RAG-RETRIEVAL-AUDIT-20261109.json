@@ -1,0 +1,175 @@
+{
+  "scope": "One archived training document; FTS-only fallback; no model calls; before/after answer budget only",
+  "source": "project\\modules\\qm-sales-assistant\\private\\knowledge-intake\\20261104-reception\\接待演练整理与问答素材.md",
+  "source_sha256": "15f1a8a77d469f87955cf26991a02555ab03080f6841ba9264b2ba95e2cec178",
+  "cases": [
+    {
+      "question": "内部培训原题 01（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "内部培训原题 02（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "内部培训原题 03（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "内部培训原题 04（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "内部培训原题 05（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "内部培训原题 06（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "内部培训原题 07（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "内部培训原题 08（正文脱敏）",
+      "kind": "archived_training_question",
+      "before_hit": true,
+      "after_hit": true,
+      "before_count": 1,
+      "after_count": 1,
+      "source_blocks": [
+        "接待演练整理与问答素材.md#block-28"
+      ],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 1,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "孩子基础比较弱，还能学习美术吗？",
+      "kind": "paraphrase",
+      "before_hit": false,
+      "after_hit": false,
+      "before_count": 0,
+      "after_count": 0,
+      "source_blocks": [],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 0,
+        "omitted": 0
+      }
+    },
+    {
+      "question": "不住在学校的家长怎么了解孩子的学习和生活？",
+      "kind": "paraphrase",
+      "before_hit": false,
+      "after_hit": false,
+      "before_count": 0,
+      "after_count": 0,
+      "source_blocks": [],
+      "budget": {
+        "blockLimit": 6,
+        "characterLimit": 18000,
+        "supplied": 0,
+        "omitted": 0
+      }
+    }
+  ],
+  "before_hits": 8,
+  "after_hits": 8
+}

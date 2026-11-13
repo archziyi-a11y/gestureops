@@ -6,6 +6,7 @@ Drag project and asset cards to inspect operational facts or assemble maintenanc
 
 ## Start Here
 
+- [Preservation supplements](docs/PRESERVATION-SUPPLEMENTS.md) - restored source-library history and RAG evaluation evidence, with explicit redaction scope.
 - [Workface and card-context experience archive](docs/EXPERIENCE-INDEX.md) — full methods, retrospectives, and independent handoff experiments (104 original documents).
 - [Workbench documentation](workbench-prototype-v3/README.md)
 - [Agent handoff entry](workbench-prototype-v3/docs/AGENT-START.md)

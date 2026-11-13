@@ -6,7 +6,7 @@
 
 - Windows 任务 `GEO-OpenClaw-Write-Validation`：周一至周五 10:30，北京时间。
 - 运行环境 `D:/Dev/openclaw-geo`；入口 `bin/run-daily-write-validation.ps1`。先阅读脚本，不直接执行。
-- 写稿编排：`%USERPROFILE%/.kimi_openclaw/workspace/war-rooms/qingmei-geo-campaign/scripts/openclaw_write_orchestrate.py`。
+- 写稿编排：`C:/Users/YL-GHL/.kimi_openclaw/workspace/war-rooms/qingmei-geo-campaign/scripts/openclaw_write_orchestrate.py`。
 - 每次核对 `logs/validation-ledger.jsonl` 与 `logs/write-{date}/orchestrate-summary.json`；成稿位于作战室 artifacts，gate.path 指向对应文件。
 - 正常需同一批次回执成功、稿件非空、规则门禁通过。退出码、端口监听、模型返回成功均不能单独代替成稿验收；门禁通过不等于事实已人工审核。
 - OpenClaw Gateway 18789；旧 kimi cron、n8n 三条辅助流程与 Windows 写稿任务不能混为同一调度，不同时启用以免重复执行。
