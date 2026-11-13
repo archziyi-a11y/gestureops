@@ -6,6 +6,7 @@ Drag project and asset cards to inspect operational facts or assemble maintenanc
 
 ## Start Here
 
+- [Workface and card-context experience archive](docs/EXPERIENCE-INDEX.md) — full methods, retrospectives, and independent handoff experiments (104 original documents).
 - [Workbench documentation](workbench-prototype-v3/README.md)
 - [Agent handoff entry](workbench-prototype-v3/docs/AGENT-START.md)
 - [User guide](workbench-prototype-v3/docs/USER-GUIDE.md)

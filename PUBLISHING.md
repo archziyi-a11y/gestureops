@@ -8,6 +8,17 @@ Excluded from this export: internal training questions and their detailed audit
 JSON, original company documents, customer data, credentials, production backups,
 personal chat-cache paths, and fixed cloud instance identifiers.
 
+## Complete engineering experience archive
+
+The owner-approved archive added on 2026-11-13 preserves 104 historical method,
+design, retrospective and card-handoff documents in full. See
+[`docs/EXPERIENCE-INDEX.md`](docs/EXPERIENCE-INDEX.md) and its per-file SHA-256
+manifest. These historical documents retain operational references and observed
+metadata for reproducibility; the exclusions above do not require abridging
+their engineering narrative. Referenced databases, source business materials,
+credentials and recovery archives are not included. Historical instructions
+are not authorization to perform operations today.
+
 The historical RAG methodology and aggregate observations are retained. UI sample
 questions are newly authored examples, not the historical evaluation set.
 
