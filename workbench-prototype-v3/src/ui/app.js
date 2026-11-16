@@ -205,8 +205,8 @@ function topbar() {
         ${navItem("#/records", "作业记录", r.name === "records")}
       </nav>
       <div class="meta">
-        ${chip("本地原型", "neutral")}
-        <span class="mono meta__time">最近更新 ${fmtTime(STATE.updatedAt)} · Asia/Shanghai</span>
+        ${chip("本机工作台", "neutral")}
+        <span class="mono meta__time">工作区记录 ${fmtTime(STATE.updatedAt)} · Asia/Shanghai</span>
       </div>
     </header>`;
 }

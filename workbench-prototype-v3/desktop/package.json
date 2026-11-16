@@ -1,0 +1,15 @@
+{
+  "name": "yili-workbench-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "setup": "node node_modules/electron/install.js",
+    "test": "node smoke.cjs"
+  },
+  "devDependencies": {
+    "electron": "45.3.3",
+    "playwright-core": "1.65.1"
+  }
+}

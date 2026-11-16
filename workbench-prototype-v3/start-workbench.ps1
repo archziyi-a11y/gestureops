@@ -1,3 +1,4 @@
+param([switch]$ServiceOnly, [switch]$Browser)
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 $url = 'http://127.0.0.1:5185/'
@@ -25,8 +26,16 @@ try {
         }
         if (-not $ready) { throw "Startup failed. See logs in $state" }
     }
-    Start-Process $url
+    if (-not $ServiceOnly) {
+        if ($Browser) { Start-Process $url }
+        else {
+            $electron = Join-Path $root 'desktop/node_modules/electron/dist/electron.exe'
+            if (-not (Test-Path $electron)) { throw 'Desktop runtime missing. Run npm ci in the desktop folder, or use -Browser.' }
+            Start-Process -FilePath $electron -ArgumentList ('"' + (Join-Path $root 'desktop') + '"') -WorkingDirectory $root
+        }
+    }
 } catch {
+    if ($ServiceOnly) { Write-Error $_.Exception.Message; exit 1 }
     Add-Type -AssemblyName System.Windows.Forms
     [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, 'Workbench startup') | Out-Null
     exit 1

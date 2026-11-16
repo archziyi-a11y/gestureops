@@ -12,7 +12,7 @@
 | 启动、数据与升级 | [运行说明](docs/OPERATIONS.md) |
 | 修改后的验收与接续 | [验收清单](docs/CHECKLIST.md) |
 
-在 PowerShell 执行 `& 'D:\Dev\smart-customer-service\workbench-prototype-v3\start-workbench.ps1'`，打开 <http://127.0.0.1:5185/#/grid>。该启动器使用 LOCALAPPDATA 下的 `YiliWorkbench/spatial-demo`；直接运行 `node server.js` 的默认端口和数据目录不同，不混用。
+在 PowerShell 执行 `& 'D:\Dev\smart-customer-service\workbench-prototype-v3\start-workbench.ps1'`，打开独立桌面窗口。关闭窗口后收进托盘，后台服务继续运行；再次启动或双击托盘可恢复。加 `-Browser` 仍可打开 <http://127.0.0.1:5185/#/grid>。[桌面窗口安装与边界](desktop/README.md)。该启动器使用 LOCALAPPDATA 下的 `YiliWorkbench/spatial-demo`；直接运行 `node server.js` 的默认端口和数据目录不同，不混用。
 
 ## 功能与维护地图
 
